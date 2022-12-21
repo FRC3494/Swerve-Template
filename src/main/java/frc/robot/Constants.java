@@ -46,7 +46,7 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 5; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 4; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 6;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(86); // FIXME Measure and set back right steer offset
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(86+6.856); // FIXME Measure and set back right steer offset
 
     public static final double compassOffset = 0;
 }

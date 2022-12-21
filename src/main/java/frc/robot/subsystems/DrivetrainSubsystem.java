@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -48,7 +49,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveDriveOdometry swerveOdo;
 
   //private PigeonIMU m_pigeon;
-
+  private NavX m_navx;
   private SwerveModule m_frontLeftModule;
   private SwerveModule m_frontRightModule;
   private SwerveModule m_backLeftModule;
@@ -57,9 +58,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
   public DrivetrainSubsystem() {
-    //m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
-   
-    //m_pigeon.setYaw(m_pigeon.getCompassHeading()-Constants.compassOffset);
+     //------------Depending on if you use a navX or Pigeon this will initialize and zero the IMU---------------
+        //m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
+        //m_pigeon.setYaw(m_pigeon.getCompassHeading()-Constants.compassOffset);
+    m_navx = new NavX();  
+    m_navx.initialize(); 
 
     m_kinematics = new SwerveDriveKinematics(
         // Front left
@@ -157,29 +160,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * 'forwards' direction.
    */
   public void zeroGyroscope() {
-    // FIXME Remove if you are using a Pigeon
     System.out.println("ZEROED");
-    //m_pigeon.setYaw(0.0);
-     
     // FIXME Uncomment if you are using a NavX
-//    m_navx.zeroYaw();
+    m_navx.zeroYaw();
+
+    // FIXME Remove if you are using a Pigeon
+    //m_pigeon.setYaw(0.0);
   }
 
   public Rotation2d getGyroscopeRotation() {
     // FIXME Remove if you are using a Pigeon
     //Rotation2d heading = Rotation2d.fromDegrees(m_pigeon.getYaw());
     //System.out.println(heading);
-    return Rotation2d.fromDegrees(0);
+    //return Rotation2d.fromDegrees(0); //This line is for testing purposes DO NOT UNCOMMENT unless you want to test without your IMU
     //return heading;
 
     // FIXME Uncomment if you are using a NavX
-//    if (m_navx.isMagnetometerCalibrated()) {
-//      // We will only get valid fused headings if the magnetometer is calibrated
-//      return Rotation2d.fromDegrees(m_navx.getFusedHeading());
-//    }
-//
-//    // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
-//    return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
+    if (m_navx.getNavX().isMagnetometerCalibrated()) {
+      // We will only get valid fused headings if the magnetometer is calibrated
+      return Rotation2d.fromDegrees(m_navx.getYaw());
+    }
+
+    // We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
+   return Rotation2d.fromDegrees(360.0 - m_navx.getYaw());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
@@ -214,7 +217,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
-  }
+    System.out.println(m_navx.getYaw());
+}
 
 
 

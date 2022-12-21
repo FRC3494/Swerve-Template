@@ -47,9 +47,9 @@ public final class SdsModuleConfigurations {
 
     public static final ModuleConfiguration MK4I_L1 = new ModuleConfiguration(
             0.10033,
-            (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0),
+            1/5.25,//(14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0),
             true,
-            (14.0 / 50.0) * (10.0 / 60.0),
+            1/53.3,//(14.0 / 50.0) * (10.0 / 60.0),
             false
     );
     public static final ModuleConfiguration MK4I_L2 = new ModuleConfiguration(

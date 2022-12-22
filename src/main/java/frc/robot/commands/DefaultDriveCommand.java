@@ -36,6 +36,8 @@ public class DefaultDriveCommand extends CommandBase {
                         m_drivetrainSubsystem.getGyroscopeRotation()
                 )
         );
+        m_drivetrainSubsystem.m_navx.displayShuffles();
+        System.out.println(m_drivetrainSubsystem.m_navx.getYaw());
     }
 
     @Override

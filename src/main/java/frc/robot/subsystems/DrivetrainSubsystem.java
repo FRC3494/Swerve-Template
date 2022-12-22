@@ -49,7 +49,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private SwerveDriveOdometry swerveOdo;
 
   //private PigeonIMU m_pigeon;
-  private NavX m_navx;
+  public NavX m_navx;
   private SwerveModule m_frontLeftModule;
   private SwerveModule m_frontRightModule;
   private SwerveModule m_backLeftModule;
@@ -217,7 +217,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
-    System.out.println(m_navx.getYaw());
+    
 }
 
 

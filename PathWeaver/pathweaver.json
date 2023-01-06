@@ -1,9 +1,0 @@
-{
-  "lengthUnit": "Meter",
-  "exportUnit": "Always Meters",
-  "maxVelocity": 3.14,
-  "maxAcceleration": 1.57,
-  "trackWidth": 0.7112,
-  "gameName": "Destination: Deep Space",
-  "outputDir": "../src/main/deploy/paths"
-}

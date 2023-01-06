@@ -6,17 +6,15 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 public interface DriveControllerFactory<Controller extends DriveController, DriveConfiguration> {
     default void addDashboardEntries(
             ShuffleboardContainer container,
-            Controller controller
-    ) {
+            Controller controller) {
         container.addNumber("Current Velocity", controller::getStateVelocity);
     }
 
     default Controller create(
             ShuffleboardContainer container,
             DriveConfiguration driveConfiguration,
-            ModuleConfiguration moduleConfiguration
-    ) {
-        var controller = create(driveConfiguration, moduleConfiguration);
+            ModuleConfiguration moduleConfiguration) {
+        Controller controller = create(driveConfiguration, moduleConfiguration);
         addDashboardEntries(container, controller);
 
         return controller;

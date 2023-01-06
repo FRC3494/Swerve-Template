@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -64,8 +67,17 @@ public final class Constants {
 
     public static final double compassOffset = 0;
 
-    public static final double maxVelocity = Math.PI / 2;
     public static final double maxAcceleration = Math.PI;
+
+	public static final double MAX_VOLTAGE = 12.0;
+	
+	public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+			SdsModuleConfigurations.MK4I_L2.getDriveReduction() *
+			SdsModuleConfigurations.MK4I_L2.getWheelDiameter() * Math.PI;
+
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+		Math.PI, Math.PI);
+
 
     public static String fullPathToAuto(String autoJson) {
         return "/home/lvuser/deploy/paths/output/" + autoJson;

@@ -12,7 +12,7 @@ public class NavX{
     private double pitchOffset = 0;
 
     public void initialize() {
-        //this.ahrs.calibrate();
+        this.ahrs.calibrate();
         this.pitchOffset = this.ahrs.getRoll();
     }
 

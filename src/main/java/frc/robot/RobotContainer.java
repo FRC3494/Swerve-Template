@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,22 +16,27 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.spline.Spline.ControlVector;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -43,15 +50,15 @@ public class RobotContainer {
 
   private final XboxController m_controller = new XboxController(0);
 
- 
-  private final HolonomicDriveController test;
+  Trajectory trajectory = new Trajectory();
+  private final HolonomicDriveController holonomicDriveController;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() 
   {
     m_drivetrainSubsystem = new DrivetrainSubsystem();
-   
+
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -65,14 +72,25 @@ public class RobotContainer {
             () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
 
-    PIDController move = new PIDController(.15, 0.00002, 0.0001);
-    ProfiledPIDController rotate = new ProfiledPIDController(.15, 0.00002, 0.0001, new TrapezoidProfile.Constraints(6.28, 3.14));
-    test = new HolonomicDriveController(move, move, rotate);
+    //PIDController move = new PIDController(.15, 0.00002, 0.0001);
+    PIDController move = new PIDController(.2, 0.0002, 0.00001);
+    //PIDController move = new PIDController(0.5, 0, 0.0001);
+    //ProfiledPIDController rotate = new ProfiledPIDController(.15, 0.00002, 0.0001, new TrapezoidProfile.Constraints(6.28, 3.14));
+    ProfiledPIDController rotate = new ProfiledPIDController(0.0, 0, 0, new TrapezoidProfile.Constraints(Constants.maxVelocity, Constants.maxAcceleration));
+    holonomicDriveController = new HolonomicDriveController(move, move, rotate);
+    holonomicDriveController.setEnabled(false);
 
+    String trajectoryJSON = Constants.fullPathToAuto("TestPath.wpilib.json");
+    
     // Configure the button bindings
     configureButtonBindings();
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+   } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+   }
   }
-
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -96,21 +114,29 @@ public class RobotContainer {
    */
    
   //Pose2d togo = new Pose2d(0, 0, new Rotation2d(Math.toRadians(45)));
-
+  
   public Command getAutonomousCommand() {
+
+    // Reset odometry to the starting pose of the trajectory.
+    //drive.resetOdometry(trajectory.getInitialPose());
     // An ExampleCommand will run in autonomous
     startTime = System.currentTimeMillis();
 
     return new DefaultDriveCommand( m_drivetrainSubsystem, 
       () -> -grabSpeeds().vyMetersPerSecond,
       () -> -grabSpeeds().vxMetersPerSecond,
-      () -> -grabSpeeds().omegaRadiansPerSecond);    
+      () -> -grabSpeeds().omegaRadiansPerSecond);   
+  }
+
+  public void disabledReset() {
+    m_drivetrainSubsystem.getOdometry().resetPosition(new Pose2d(0, 0, new Rotation2d(0)), m_drivetrainSubsystem.getGyroscopeRotation());
   }
 
   /*Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
     /*new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
     List.of(),
-    new Pose2d(0.2, 0, Rotation2d.fromDegrees(0)),
+    new Pose2d(0.2, 0, Rotation2d
+    \fromDegrees(0)),
     new TrajectoryConfig(1, 1)).concatenate(
       TrajectoryGenerator.generateTrajectory(
         new Pose2d(0.2, 0, Rotation2d.fromDegrees(0)),
@@ -124,21 +150,22 @@ public class RobotContainer {
     // End 3 meters straight ahead of where we started, facing forward
     new Pose2d(3, 0, new Rotation2d(0))
     );*/
-    TrajectoryConfig config = new TrajectoryConfig(1,1);
+    TrajectoryConfig config = new TrajectoryConfig(Constants.maxVelocity, Constants.maxAcceleration);
 
 
 // An example trajectory to follow.  All units in meters.
-
+/* 
 Trajectory trajectory =
     TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(),
+        //List.of(new Translation2d(1, 1), new Translation2d(0, 2), new Translation2d(-1, 1), new Translation2d(0, 0.2)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(0.5, 0, new Rotation2d(0)),
+        new Pose2d(2, 0, new Rotation2d(0)),
         // Pass config
-        config);
+        config);*/
   long startTime = -1;
 
   private ChassisSpeeds grabSpeeds()
@@ -146,9 +173,15 @@ Trajectory trajectory =
      //return test.calculate(m_drivetrainSubsystem.getOdometry().getPoseMeters(), togo,  0.5, new Rotation2d(0) );
     double time = (System.currentTimeMillis() - startTime) / 1000.0;
     
+    if (time > trajectory.getTotalTimeSeconds()) return new ChassisSpeeds(0, 0, 0);
+
+    //System.out.println(time + " | " + trajectory.getTotalTimeSeconds());
     Trajectory.State goal = trajectory.sample(time);
 
-    return test.calculate(m_drivetrainSubsystem.getOdometry().getPoseMeters(), goal, Rotation2d.fromDegrees(90.0));
+    SmartDashboard.putNumber("Target X", goal.poseMeters.getX());
+    SmartDashboard.putNumber("Target Y", goal.poseMeters.getY());
+
+    return holonomicDriveController.calculate(m_drivetrainSubsystem.getOdometry().getPoseMeters(), goal, Rotation2d.fromDegrees(0.0));
   }
 
   private static double deadband(double value, double deadband) {

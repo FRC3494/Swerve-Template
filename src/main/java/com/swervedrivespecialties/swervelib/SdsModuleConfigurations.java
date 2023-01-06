@@ -53,8 +53,8 @@ public final class SdsModuleConfigurations {
             false
     );
     public static final ModuleConfiguration MK4I_L2 = new ModuleConfiguration(
-            0.10033,//FIXEME HAS BEEN CHANGED
-            1/5.25,//(14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0),
+            0.0762,//FIXEME HAS BEEN CHANGED
+            (12.0 / 21.0) * (15.0 / 45.0),//(14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0),
             false,
             1/53.3,//(14.0 / 50.0) * (10.0 / 60.0),
             false

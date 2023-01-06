@@ -38,7 +38,7 @@ public class DefaultDriveCommand extends CommandBase {
                 )
         );
         m_drivetrainSubsystem.m_navx.displayShuffles();
-        System.out.println(m_drivetrainSubsystem.m_navx.getYaw());
+        //System.out.println(m_drivetrainSubsystem.m_navx.getYaw());
         SmartDashboard.putNumber("Rotation", m_drivetrainSubsystem.getOdometry().getPoseMeters().getRotation().getDegrees());
         SmartDashboard.putNumber("X POS", m_drivetrainSubsystem.getOdometry().getPoseMeters().getX());
         SmartDashboard.putNumber("Y POS", m_drivetrainSubsystem.getOdometry().getPoseMeters().getY());

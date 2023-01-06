@@ -31,7 +31,7 @@ public final class Mk4iSwerveModuleHelper {
         return new NeoDriveControllerFactoryBuilder()
                 .withVoltageCompensation(configuration.getNominalVoltage())
                 .withCurrentLimit(configuration.getDriveCurrentLimit())
-                .withRampRate(0.25)
+                .withRampRate(0)//0.25
                 .build();
     }
 

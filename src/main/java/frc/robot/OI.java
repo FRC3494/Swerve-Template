@@ -39,6 +39,6 @@ public final class OI {
     }
 
     public static double getTeleopTurnVelocity() {
-        return modifyAxis(primaryController.getRightX() * 1.0);
+        return modifyAxis(primaryController.getRightX() * 1.5);
     }
 }

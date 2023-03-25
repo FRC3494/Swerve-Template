@@ -31,14 +31,14 @@ public final class OI {
 	}
 
     public static double getTeleopXVelocity() {
-        return modifyAxis(primaryController.getLeftY());
+        return modifyAxis(primaryController.getLeftY() * 1.5);
     }
 
     public static double getTeleopYVelocity() {
-        return modifyAxis(primaryController.getLeftX());
+        return modifyAxis(primaryController.getLeftX() * 1.5);
     }
 
     public static double getTeleopTurnVelocity() {
-        return modifyAxis(primaryController.getRightX());
+        return modifyAxis(primaryController.getRightX() * 1.0);
     }
 }

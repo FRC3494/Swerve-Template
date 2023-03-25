@@ -17,33 +17,33 @@ public final class Constants {
     public static final class Subsystems {
         public static final class Drivetrain {
             public static final class FrontLeftModule {
-                public static int DRIVE_MOTOR_PORT = 12;
-                public static int STEER_MOTOR_PORT = 11;
+                public static int DRIVE_MOTOR_PORT = 18;
+                public static int STEER_MOTOR_PORT = 16;
                 public static int STEER_ENCODER_PORT = 10;
 
                 public static double STEER_OFFSET = -Math.toRadians(7.54);
             }
 
             public static final class FrontRightModule {
-                public static int DRIVE_MOTOR_PORT = 7;
-                public static int STEER_MOTOR_PORT = 8;
-                public static int STEER_ENCODER_PORT = 9;
+                public static int DRIVE_MOTOR_PORT = 1;
+                public static int STEER_MOTOR_PORT = 3;
+                public static int STEER_ENCODER_PORT = 3;
 
                 public static double STEER_OFFSET = -Math.toRadians(258.84);
             }
 
             public static final class BackLeftModule {
-                public static int DRIVE_MOTOR_PORT = 14;
-                public static int STEER_MOTOR_PORT = 15;
+                public static int DRIVE_MOTOR_PORT = 19;
+                public static int STEER_MOTOR_PORT = 17;
                 public static int STEER_ENCODER_PORT = 13;
 
                 public static double STEER_OFFSET = -Math.toRadians(25);
             }
 
             public static final class BackRightModule {
-                public static int DRIVE_MOTOR_PORT = 5;
-                public static int STEER_MOTOR_PORT = 4;
-                public static int STEER_ENCODER_PORT = 6;
+                public static int DRIVE_MOTOR_PORT = 30;
+                public static int STEER_MOTOR_PORT = 2;
+                public static int STEER_ENCODER_PORT = 2;
 
                 public static double STEER_OFFSET = -Math.toRadians(92.856);
             }

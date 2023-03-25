@@ -23,8 +23,7 @@ public class Drivetrain extends SubsystemBase {
 			ThriftySwerveModuleHelper.GearRatio.STANDARD,
 			Constants.Subsystems.Drivetrain.FrontLeftModule.DRIVE_MOTOR_PORT,
 			Constants.Subsystems.Drivetrain.FrontLeftModule.STEER_MOTOR_PORT,
-			Constants.Subsystems.Drivetrain.FrontLeftModule.STEER_ENCODER_PORT,
-			Constants.Subsystems.Drivetrain.FrontLeftModule.STEER_OFFSET);
+			Constants.Subsystems.Drivetrain.FrontLeftModule.STEER_ENCODER_PORT);
 
 	SwerveModule frontRight = ThriftySwerveModuleHelper.createNeo(
 			Shuffleboard.getTab("Drivetrain").getLayout("Front Right Module", BuiltInLayouts.kList)
@@ -33,8 +32,7 @@ public class Drivetrain extends SubsystemBase {
 			ThriftySwerveModuleHelper.GearRatio.STANDARD,
 			Constants.Subsystems.Drivetrain.FrontRightModule.DRIVE_MOTOR_PORT,
 			Constants.Subsystems.Drivetrain.FrontRightModule.STEER_MOTOR_PORT,
-			Constants.Subsystems.Drivetrain.FrontRightModule.STEER_ENCODER_PORT,
-			Constants.Subsystems.Drivetrain.FrontRightModule.STEER_OFFSET);
+			Constants.Subsystems.Drivetrain.FrontRightModule.STEER_ENCODER_PORT);
 
 	SwerveModule backLeft = ThriftySwerveModuleHelper.createNeo(
 			Shuffleboard.getTab("Drivetrain").getLayout("Back Left Module", BuiltInLayouts.kList)
@@ -43,8 +41,7 @@ public class Drivetrain extends SubsystemBase {
 			ThriftySwerveModuleHelper.GearRatio.STANDARD,
 			Constants.Subsystems.Drivetrain.BackLeftModule.DRIVE_MOTOR_PORT,
 			Constants.Subsystems.Drivetrain.BackLeftModule.STEER_MOTOR_PORT,
-			Constants.Subsystems.Drivetrain.BackLeftModule.STEER_ENCODER_PORT,
-			Constants.Subsystems.Drivetrain.BackLeftModule.STEER_OFFSET);
+			Constants.Subsystems.Drivetrain.BackLeftModule.STEER_ENCODER_PORT);
 
 	SwerveModule backRight = ThriftySwerveModuleHelper.createNeo(
 			Shuffleboard.getTab("Drivetrain").getLayout("Back Right Module", BuiltInLayouts.kList)
@@ -53,14 +50,13 @@ public class Drivetrain extends SubsystemBase {
 			ThriftySwerveModuleHelper.GearRatio.STANDARD,
 			Constants.Subsystems.Drivetrain.BackRightModule.DRIVE_MOTOR_PORT,
 			Constants.Subsystems.Drivetrain.BackRightModule.STEER_MOTOR_PORT,
-			Constants.Subsystems.Drivetrain.BackRightModule.STEER_ENCODER_PORT,
-			Constants.Subsystems.Drivetrain.BackRightModule.STEER_OFFSET);
+			Constants.Subsystems.Drivetrain.BackRightModule.STEER_ENCODER_PORT);
 
 	// The gyro sensor
 	private final NavX navX = new NavX();
 
 	// Odometry class for tracking robot pose
-	private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Subsystems.Drivetrain.SWERVE_KINEMATICS, getGyroscopeRotation());
+	//private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Subsystems.Drivetrain.SWERVE_KINEMATICS, getGyroscopeRotation());
 
 	/** Creates a new DriveSubsystem. */
 	public Drivetrain() {
@@ -68,12 +64,12 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		odometry.update(
+		/*odometry.update(
 				getGyroscopeRotation(),
 				frontLeft.getState(),
 				frontRight.getState(),
 				backLeft.getState(),
-				backRight.getState());
+				backRight.getState());*/
 	}
 
 	/**
@@ -82,7 +78,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @return The pose.
 	 */
 	public Pose2d getPose() {
-		return odometry.getPoseMeters();
+		return new Pose2d(); //odometry.getPoseMeters();
 	}
 
 	/**
@@ -100,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @param pose The pose to which to set the odometry.
 	 */
 	public void resetOdometry(Pose2d pose) {
-		odometry.resetPosition(pose, getGyroscopeRotation());
+		//odometry.resetPosition(pose, getGyroscopeRotation());
 	}
 
 	/**

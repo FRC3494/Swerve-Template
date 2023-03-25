@@ -7,7 +7,7 @@ public interface DriveControllerFactory<Controller extends DriveController, Driv
     default void addDashboardEntries(
             ShuffleboardContainer container,
             Controller controller) {
-        container.addNumber("Current Velocity", controller::getStateVelocity);
+        container.addNumber("Distance Travelled", controller::getDistanceTravelled);
     }
 
     default Controller create(

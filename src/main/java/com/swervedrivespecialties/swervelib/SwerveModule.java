@@ -1,13 +1,13 @@
 package com.swervedrivespecialties.swervelib;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public interface SwerveModule {
-    double getDriveVelocity();
+    double getDriveDistance();
 
     double getSteerAngle();
 
     void set(double driveVoltage, double steerAngle);
 
-    SwerveModuleState getState();
+    SwerveModulePosition getState();
 }

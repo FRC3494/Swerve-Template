@@ -1,7 +1,7 @@
 package com.swervedrivespecialties.swervelib;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 
 public class SwerveModuleFactory<DriveConfiguration, SteerConfiguration> {
@@ -52,8 +52,8 @@ public class SwerveModuleFactory<DriveConfiguration, SteerConfiguration> {
     }
 
     @Override
-    public double getDriveVelocity() {
-      return driveController.getStateVelocity();
+    public double getDriveDistance() {
+      return driveController.getDistanceTravelled();
     }
 
     @Override
@@ -98,9 +98,9 @@ public class SwerveModuleFactory<DriveConfiguration, SteerConfiguration> {
     }
 
     @Override
-    public SwerveModuleState getState() {
-      return new SwerveModuleState(
-          driveController.getStateVelocity(),
+    public SwerveModulePosition getState() {
+      return new SwerveModulePosition(
+          driveController.getDistanceTravelled(),
           new Rotation2d(steerController.getStateAngle()));
     }
   }

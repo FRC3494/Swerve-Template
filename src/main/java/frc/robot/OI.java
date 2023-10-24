@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 
 public final class OI {
-	private static XboxController primaryController = new XboxController(Constants.OI.PRIMARY_CONTROLLER_PORT);
+    private static XboxController primaryController = new XboxController(Constants.OI.PRIMARY_CONTROLLER_PORT);
 
     private static double deadband(double value, double deadband) {
         if (Math.abs(value) > deadband) {
@@ -26,19 +26,27 @@ public final class OI {
 
         return value * .5;
     }
-    
-	public static void configureButtonBindings() {
-	}
+
+    public static void configureButtonBindings() {
+    }
 
     public static double getTeleopXVelocity() {
-        return modifyAxis(primaryController.getLeftY() * 1.5);
+        return -modifyAxis(primaryController.getLeftY() * 1.5);
     }
 
     public static double getTeleopYVelocity() {
-        return modifyAxis(primaryController.getLeftX() * 1.5);
+        return -modifyAxis(primaryController.getLeftX() * 1.5);
     }
 
     public static double getTeleopTurnVelocity() {
-        return modifyAxis(primaryController.getRightX() * 1.5);
+        return -modifyAxis(primaryController.getRightX() * 1.5);
+    }
+
+    public static double getIntakePower() {
+        return 0.1 * primaryController.getLeftTriggerAxis() - 0.1 * primaryController.getRightTriggerAxis();
+    }
+
+    public static double getIntakeSpeed() {
+        return (primaryController.getXButton() ? 0.1 : -0.5) + (primaryController.getBButton() ? -1.5 : 0.6);
     }
 }

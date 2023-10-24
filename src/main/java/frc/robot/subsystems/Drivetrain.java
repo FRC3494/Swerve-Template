@@ -55,7 +55,9 @@ public class Drivetrain extends SubsystemBase {
 	private final NavX navX = new NavX();
 
 	// Odometry class for tracking robot pose
-	//private SwerveDriveOdometry odometry = new SwerveDriveOdometry(Constants.Subsystems.Drivetrain.SWERVE_KINEMATICS, getGyroscopeRotation());
+	// private SwerveDriveOdometry odometry = new
+	// SwerveDriveOdometry(Constants.Subsystems.Drivetrain.SWERVE_KINEMATICS,
+	// getGyroscopeRotation());
 
 	/** Creates a new DriveSubsystem. */
 	public Drivetrain() {
@@ -63,12 +65,14 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		/*odometry.update(
-				getGyroscopeRotation(),
-				frontLeft.getState(),
-				frontRight.getState(),
-				backLeft.getState(),
-				backRight.getState());*/
+		/*
+		 * odometry.update(
+		 * getGyroscopeRotation(),
+		 * frontLeft.getState(),
+		 * frontRight.getState(),
+		 * backLeft.getState(),
+		 * backRight.getState());
+		 */
 	}
 
 	/**
@@ -77,7 +81,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @return The pose.
 	 */
 	public Pose2d getPose() {
-		return new Pose2d(); //odometry.getPoseMeters();
+		return new Pose2d(); // odometry.getPoseMeters();
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @param pose The pose to which to set the odometry.
 	 */
 	public void resetOdometry(Pose2d pose) {
-		//odometry.resetPosition(pose, getGyroscopeRotation());
+		// odometry.resetPosition(pose, getGyroscopeRotation());
 	}
 
 	/**
@@ -113,7 +117,7 @@ public class Drivetrain extends SubsystemBase {
 				fieldRelative
 						? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getGyroscopeRotation())
 						: new ChassisSpeeds(xSpeed, ySpeed, rot));
-
+		swerveModuleStates[2].speedMetersPerSecond *= -1;
 		SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
 				Constants.Subsystems.Drivetrain.MAX_VELOCITY_METERS_PER_SECOND);
 

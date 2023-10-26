@@ -30,13 +30,5 @@ public class Intake extends SubsystemBase {
     public void setIntakePower(double intakePower) {
         intakeMotor.set(intakePower);
     }
-    /**
-     * Returns the currently-estimated pose of the robot.
-     *
-     * @return The pose.
-     */
-    // public Pose2d getPose() {
-    // return new Pose2d(); // odometry.getPoseMeters();
-    // }
-
+    
 }

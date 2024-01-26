@@ -16,11 +16,9 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 public final class Constants {
     public static final class Subsystems {
         public static final class Intake {
-            public static int WRIST_MOTOR_PORT = 15;
-            public static int INTAKE_MOTOR_PORT = 4;
+            public static double INTAKE_SPEED = 0.35;
 
-            public void setPower(double intakePower) {
-            }
+            public static int INTAKE_MOTOR_PORT = 4;
         }
 
         public static final class Drivetrain {
@@ -102,5 +100,6 @@ public final class Constants {
 
     public static final class OI {
         public static final int PRIMARY_CONTROLLER_PORT = 0;
+        public static final double DRIVE_SPEED = 1;
     }
 }

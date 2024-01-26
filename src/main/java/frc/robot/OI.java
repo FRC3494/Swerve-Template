@@ -31,22 +31,21 @@ public final class OI {
     }
 
     public static double getTeleopXVelocity() {
-        return -modifyAxis(primaryController.getLeftY() * 1.5);
+        return -modifyAxis(primaryController.getLeftY() * Constants.OI.DRIVE_SPEED);
     }
 
     public static double getTeleopYVelocity() {
-        return -modifyAxis(primaryController.getLeftX() * 1.5);
+        return -modifyAxis(primaryController.getLeftX() * Constants.OI.DRIVE_SPEED);
     }
 
     public static double getTeleopTurnVelocity() {
-        return -modifyAxis(primaryController.getRightX() * 1.5);
+        return -modifyAxis(primaryController.getRightX() * Constants.OI.DRIVE_SPEED);
     }
 
+    /*
+     * returns -1 to 1
+     */
     public static double getIntakePower() {
-        return 0.1 * primaryController.getLeftTriggerAxis() - 0.1 * primaryController.getRightTriggerAxis();
-    }
-
-    public static double getIntakeSpeed() {
-        return (primaryController.getXButton() ? 0.1 : -0.5) + (primaryController.getBButton() ? -1.5 : 0.6);
+        return primaryController.getLeftTriggerAxis() - primaryController.getRightTriggerAxis();
     }
 }

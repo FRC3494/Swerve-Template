@@ -19,9 +19,9 @@ public class FollowPath extends SwerveControllerCommand {
 				drivetrain);
 
 		this.drivetrain = drivetrain;
-				
+
 		Constants.Commands.FollowPath.THETA_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
-		
+
 		drivetrain.resetOdometry(trajectory.getInitialPose());
 
 		this.andThen(() -> drivetrain.drive(0, 0, 0, false));
